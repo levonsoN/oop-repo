@@ -3,6 +3,6 @@ module com.example.untitled {
     requires javafx.fxml;
 
 
-    opens com.example.untitled to javafx.fxml;
-    exports com.example.untitled;
+    opens com.lvn.lab9 to javafx.fxml;
+    exports com.lvn.lab9;
 }
