@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         String filename = "C:\\db";
 
         PhoneDbConsoleMenu menu = new PhoneDbConsoleMenu();
@@ -18,7 +18,13 @@ public class Main {
         menu.printTitle();
         PhoneDbConsoleMenuDbType dbType = menu.askDbType();
         PhoneDbConsoleMenuCollectionType listType = menu.askCollectionType();
-        PhoneCollection collection = readCollection(listType, dbType, filename);
+        PhoneCollection collection = null;
+        try {
+            collection = readCollection(listType, dbType, filename);
+        } catch (Exception e) {
+            System.out.println("readCollection failed with error: " + e.getMessage());
+            return;
+        }
 
         loop:
         while (true) {
@@ -28,12 +34,20 @@ public class Main {
                     menu.printPhones(collection.toArray(), "Phones: ");
                     break;
                 case Add:
-                    Phone newPhone = menu.readPhone("New com.lvn.lab6.phone.Phone: ");
-                    collection.add(newPhone);
+                    Phone newPhone = menu.readPhone("New Phone: ");
+                    try {
+                        collection.add(newPhone);
+                    } catch (Exception e) {
+                        System.out.println("Adding failed with error: " + e.getMessage());
+                    }
                     break;
                 case Remove:
                     int index = menu.readPhoneNumber(collection.getCount());
-                    collection.removeAt(index);
+                    try {
+                        collection.removeAt(index);
+                    } catch (Exception e) {
+                        System.out.println("Removing failed with error: " + e.getMessage());
+                    }
                     menu.printLn("Success.");
                     break;
                 case Filter1:
@@ -71,7 +85,11 @@ public class Main {
                 case Exit:
                     break loop;
             }
-            writePhoneList(collection, dbType, filename);
+            try {
+                writePhoneList(collection, dbType, filename);
+            } catch (Exception e) {
+                System.out.println("Writing Phone List to db failed with error: " + e.getMessage());
+            }
         }
     }
 

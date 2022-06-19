@@ -100,7 +100,7 @@ public class PhoneDbConsoleMenu {
         System.out.println("Choose option:");
         System.out.println("\t1 - print phones");
         System.out.println("\t2 - add phones");
-        System.out.println("\t3 - remove com.lvn.lab6.phone");
+        System.out.println("\t3 - remove phone");
         System.out.println("\t4 - filter 1");
         System.out.println("\t5 - filter 2");
         System.out.println("\t6 - filter 3");

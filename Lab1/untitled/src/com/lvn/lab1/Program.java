@@ -19,7 +19,7 @@ class Program {
     }
 
     static void printResult(double x, double a, double b, double y, double z) {
-        System.out.printf("com.lvn.lab1.Input: X = %1$.4f; A = %2$.4f; B = %3$.4f.\nResult: Y = %4$.4f; Z = %5$.4f\n",
+        System.out.printf("Input: X = %1$.4f; A = %2$.4f; B = %3$.4f.\nResult: Y = %4$.4f; Z = %5$.4f\n",
                 x, a, b, y, z);
     }
 
@@ -27,7 +27,7 @@ class Program {
         Scanner c = new Scanner(System.in);
         while (true) {
             try {
-                System.out.println("Enter X, Y and Z: ");
+                System.out.println("Enter X, A and B: ");
                 Input result = new Input(c.nextDouble(), c.nextDouble(), c.nextDouble());
                 c.close();
                 return result;

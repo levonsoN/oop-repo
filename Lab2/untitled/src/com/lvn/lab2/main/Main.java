@@ -13,7 +13,7 @@ public class Main {
         printPhonesArray(phones);
         System.out.println("Phones with more intracity time than 1 sec: ");
         printPhonesArray(getPhonesWithMoreIntracityTimeThan(phones, 1));
-        System.out.println("Phones with intercity time than: ");
+        System.out.println("Phones with intercity time: ");
         printPhonesArray(getPhonesWithIntercityTime(phones));
         System.out.println("Phones with number between 234 and 456: ");
         printPhonesArray(getPhonesWithNumberBetween(phones, 234, 456));

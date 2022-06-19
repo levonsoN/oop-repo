@@ -14,7 +14,7 @@ public class MainForm {
     @FXML
     private Spinner<Double> bSpinner;
     @FXML
-    private Spinner<Double> hSpinner;
+    private Spinner<Integer> hSpinner;
     @FXML
     private Spinner<Integer> tSpinner;
     @FXML
@@ -23,8 +23,8 @@ public class MainForm {
     @FXML
     private void initialize() {
         aSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(-Double.MAX_VALUE, 1, 0));
-        bSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 1));
-        hSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0.00000001, Double.MAX_VALUE, 0.1));
+        bSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, Math.PI / 2));
+        hSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, 1));
         tSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1));
 
         aSpinner.valueProperty().addListener((observable, oldValue, newValue) ->
@@ -39,19 +39,19 @@ public class MainForm {
         long startTime = System.nanoTime();
         double a = aSpinner.getValue();
         double b = bSpinner.getValue();
-        double h = hSpinner.getValue();
+        int h = hSpinner.getValue();
         int t = tSpinner.getValue();
-        int stepsCount = (int) ((b - a) / h);
-        if (stepsCount < t) t = stepsCount;
-        int stepsPerThread = (int) Math.round((double) stepsCount / t);
+        if (h < t) t = h;
+        double stepLength = (b - a) / h;
+        int stepsPerThread = (int) Math.round((double) h / t);
         Thread[] threads = new Thread[t];
         Integrator[] integrators = new Integrator[t];
-        QuadraticFunction function = new QuadraticFunction();
+        MyFunction function = new MyFunction();
         for (int i = 0; i < t; i++) {
-            double localA = a + i * h * stepsPerThread;
-            double localB = a + (i + 1) * h * stepsPerThread - h;
-            if (localB > b) localB = b;
-            integrators[i] = new Integrator(function, localA, localB, h);
+            double localA = a + i * stepLength * stepsPerThread;
+            double localB = a + (i + 1) * stepLength * stepsPerThread - stepLength;
+            if (i == t - 1 && localB < b) localB = b;
+            integrators[i] = new Integrator(function, localA, localB, stepLength);
             threads[i] = new Thread(integrators[i]);
             threads[i].start();
         }
