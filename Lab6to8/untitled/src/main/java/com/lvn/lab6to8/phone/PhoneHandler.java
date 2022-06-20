@@ -4,13 +4,15 @@ import java.util.*;
 
 public class PhoneHandler {
     public Phone[] sortPhonesByTotalTime(Phone[] phones, boolean desc) {
-        Arrays.sort(phones, new PhoneTimeComparator(desc));
-        return phones;
+        Phone[] tmp = phones.clone();
+        Arrays.sort(tmp, new PhoneTimeComparator(desc));
+        return tmp;
     }
 
     public Phone[] sortPhonesByName(Phone[] phones, boolean desc) {
-        Arrays.sort(phones, new PhoneNameComparator(desc));
-        return phones;
+        Phone[] tmp = phones.clone();
+        Arrays.sort(tmp, new PhoneNameComparator(desc));
+        return tmp;
     }
 
     public Phone[] getPhonesByCity(Phone[] phones, String city) {
@@ -23,10 +25,8 @@ public class PhoneHandler {
 
     public String[] getCities(Phone[] phones) {
         Set<String> result = new HashSet<>();
-        for (int i = 0; i < phones.length; i++) {
+        for (int i = 0; i < phones.length; i++)
             result.add(phones[i].getCity());
-            System.out.println(phones[i].getCity());
-        }
         return result.toArray(new String[result.size()]);
     }
 
